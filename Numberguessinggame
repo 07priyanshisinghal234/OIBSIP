@@ -1,0 +1,115 @@
+package com.company;
+import java.util.Random;
+import java.util.Scanner;
+
+class Game{
+    public int computerinput;
+    public int inputNumber;
+    public int noOfAttempt = 0;
+    public int totalAttempt= 10;
+    public  String name;
+
+    public int getnoOfAttempt() {
+        return noOfAttempt;
+    }
+
+    public void setNoOfGuesses(int noOfAttempt) {
+        this.noOfAttempt = noOfAttempt;
+
+    }
+
+    Game(){
+        Random rand = new Random();
+        this.computerinput = rand.nextInt(100);
+        System.out.println("Welcome to the number guessing game");
+        System.out.println("Please write your name here");
+        Scanner sc=new Scanner(System.in);
+        name= sc.next();
+        System.out.println("You have 10 attempts to play this game so best of luck!");
+        System.out.println("Enter number from 1 and 100");
+    }
+    void takeUserInput(){
+
+        System.out.println("Guess the number");
+        Scanner sc = new Scanner(System.in);
+        inputNumber = sc.nextInt();
+
+    }
+    boolean isCorrectNumber(int round) {
+        if (noOfAttempt == totalAttempt) {
+            System.out.println("GAME OVER");
+            System.out.println("COMPUTER INPUT NUMBER WAS " + computerinput);
+            System.out.println("U REACH YOUR LIMIT ");
+            System.out.println("TRY NEXT TIME ");
+            return false;
+        }
+
+        noOfAttempt++;
+        // System.out.println("round is "+ round);
+        if (round == 1 && (inputNumber > 100 || inputNumber < 1)) {
+            System.out.println("Error! Enter a number between 1 and 100");
+        }else if(round == 2 && (inputNumber < 100 || inputNumber > 200)) {
+            System.out.println("Error ! Enter a  Number between 100 and 200");
+        }
+        else if (inputNumber == computerinput) {
+            if (noOfAttempt == 1 || noOfAttempt==2){
+                System.out.println("YOU GET A 10 POINTS");
+            } else if (noOfAttempt == 3 || noOfAttempt == 4) {
+                System.out.println("YOU GET A 8 POINTS");
+            } else if (noOfAttempt ==5 || noOfAttempt == 6) {
+                System.out.println("YOU GET A 6 POINTS");
+            } else if (noOfAttempt == 7 || noOfAttempt ==8 ) {
+                System.out.println("YOU GET A 4 POINTS");
+            } else if (noOfAttempt == 9 || noOfAttempt==10) {
+                System.out.println("YOU GET A 2 POINTS");
+            }
+
+            if(round == 1) {
+                System.out.println("CONGRAGULATION U WIN ROUND 1 AND READY FOR ROUND 2");
+                System.out.println("YOUR TOTAL ATTEMPT IS "+ noOfAttempt);
+                System.out.println("WELCOME TO ROUND 2");
+                System.out.println("You have 5 attempts to play this game so best of luck!");
+                System.out.println("Enter number from 100 and 200");
+                return false;
+            }
+            if(round == 2) {
+                System.out.println("CONGRAGULATION HIP HIP HURRAH");
+                System.out.println("U WIN THE GAME ");
+                return false;
+
+            }
+        }
+
+        else if (inputNumber < computerinput) {
+            System.out.println("Too low ! Increase the number...");
+        }
+        else if (inputNumber >computerinput) {
+            System.out.println("Too high ! Decrease the number...");
+        }
+        return true;
+    }
+
+}
+
+public class Numberguessinggame {
+
+    public static void main(String[] args) {
+        Game g = new Game();
+        boolean b = true;
+        int round = 1;
+        while (b) {
+            g.takeUserInput();
+            b = g.isCorrectNumber(round);
+            if (!b && round == 1) {
+                if (g.noOfAttempt == g.totalAttempt) break;
+                Random rand = new Random();
+                g.computerinput = rand.nextInt(100, 200);
+                g.noOfAttempt = 0;
+                g.totalAttempt = 5;
+                b = true;
+                round++;
+            }
+        }
+    }
+}
+
